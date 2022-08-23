@@ -1,6 +1,6 @@
 class NumericString:
     
-    def toEnglishNumber(text):
+    def toEnglish(text):
         FA_EN = {
             '۰' : '0',
             '۱' : '1',
