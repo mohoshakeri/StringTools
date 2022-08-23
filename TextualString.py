@@ -17,8 +17,3 @@ class TextualString:
             interval = [text.find(start,interval[0] + 1),text.find(start,interval[0] + 1) + start_len]
         return result
 
-# with open("path", 'r') as file:
-#     x = file.read()
-#     y = TextualString.find_expressions(x,'href=\"','\"',17,-5)
-#     for i in y:
-#         print(i)
