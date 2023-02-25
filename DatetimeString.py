@@ -40,6 +40,7 @@ def to_text_format(datetime:datetime,time_check=True,year_check=True,lang='Persi
         hour = str(jalali.hour)
         min = str(jalali.minute)
         if int(min) < 10 : min = '0' + min
+        if int(hour) < 10 : hour = '0' + hour
         
         if time_check and year_check:
             result = day + ' ' + month + ' ' + year + ' - ' + 'ساعت ' + hour + ':' + min
@@ -56,9 +57,10 @@ def to_text_format(datetime:datetime,time_check=True,year_check=True,lang='Persi
         hour = str(datetime.hour)
         min = str(datetime.minute)
         if int(min) < 10 : min = '0' + min
+        if int(hour) < 10 : hour = '0' + hour
         
         if time_check and year_check:
-            result = month + ' ' + day + ', ' + year + ' at ' + hour + ':' + hour
+            result = month + ' ' + day + ', ' + year + ' at ' + hour + ':' + min
         elif year_check:
             result = month + ' ' + day + ', ' + year
         elif time_check:
