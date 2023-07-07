@@ -1,5 +1,6 @@
 from jdatetime import datetime as jdatetime
-from datetime import datetime
+from datetime import datetime as dt
+from datetime import date
 
 months = {
     1 : 'فروردین',
@@ -31,40 +32,51 @@ en_months = {
     12 : 'December',
 }
 
-def to_text_format(datetime:datetime,time_check=True,year_check=True,lang='Persian'):
-    if lang == 'Persian':
-        jalali = jdatetime.fromgregorian(datetime=datetime)
-        year = str(jalali.year)
-        month = months[jalali.month]
-        day = str(jalali.day)
-        hour = str(jalali.hour)
-        min = str(jalali.minute)
-        if int(min) < 10 : min = '0' + min
-        if int(hour) < 10 : hour = '0' + hour
-        
-        if time_check and year_check:
-            result = day + ' ' + month + ' ' + year + ' - ' + 'ساعت ' + hour + ':' + min
-        elif year_check:
-            result = day + ' ' + month + ' ' + year
-        elif time_check:
-            result = day + ' ' + month  + ' - ' + 'ساعت ' + hour + ':' + min
+def to_text_format(datetime:dt,time_check=True,year_check=True,lang='Persian'):
+    if datetime:
+        if isinstance(datetime, date) and not isinstance(datetime, dt):
+            datetime = dt.combine(datetime,dt.min.time())
+        if lang == 'Persian':
+            jalali = jdatetime.fromgregorian(datetime=datetime)
+            year = str(jalali.year)
+            month = months[jalali.month]
+            day = str(jalali.day)
+            hour = str(jalali.hour)
+            min = str(jalali.minute)
+            if int(min) < 10 : min = '0' + min
+            if int(hour) < 10 : hour = '0' + hour
+            
+            if isinstance(datetime, date) and not isinstance(datetime, dt) and year_check:
+                result = day + ' ' + month + ' ' + year
+            elif isinstance(datetime, date) and not isinstance(datetime, dt):
+                result = day + ' ' + month
+            elif time_check and year_check:
+                result = day + ' ' + month + ' ' + year + ' - ' + 'ساعت ' + hour + ':' + min
+            elif year_check:
+                result = day + ' ' + month + ' ' + year
+            elif time_check:
+                result = day + ' ' + month  + ' - ' + 'ساعت ' + hour + ':' + min
+            else:
+                result = day + ' ' + month
         else:
-            result = day + ' ' + month
-    else:
-        year = str(datetime.year)
-        month = en_months[datetime.month]
-        day = str(datetime.day)
-        hour = str(datetime.hour)
-        min = str(datetime.minute)
-        if int(min) < 10 : min = '0' + min
-        if int(hour) < 10 : hour = '0' + hour
-        
-        if time_check and year_check:
-            result = month + ' ' + day + ', ' + year + ' at ' + hour + ':' + min
-        elif year_check:
-            result = month + ' ' + day + ', ' + year
-        elif time_check:
-            result = month + ' ' + day + ' at ' + hour + ':' + hour
-        else:
-            result = month + ' ' + day
-    return result
+            year = str(datetime.year)
+            month = en_months[datetime.month]
+            day = str(datetime.day)
+            hour = str(datetime.hour)
+            min = str(datetime.minute)
+            if int(min) < 10 : min = '0' + min
+            if int(hour) < 10 : hour = '0' + hour
+            
+            if isinstance(datetime, date) and not isinstance(datetime, dt) and year_check:
+                result = month + ' ' + day + ', ' + year
+            elif isinstance(datetime, date) and not isinstance(datetime, dt):
+                result = month + ' ' + day
+            elif time_check and year_check:
+                result = month + ' ' + day + ', ' + year + ' at ' + hour + ':' + min
+            elif year_check:
+                result = month + ' ' + day + ', ' + year
+            elif time_check:
+                result = month + ' ' + day + ' at ' + hour + ':' + hour
+            else:
+                result = month + ' ' + day
+        return result
