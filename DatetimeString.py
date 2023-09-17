@@ -34,7 +34,8 @@ en_months = {
 
 def to_text_format(datetime:dt,time_check=True,year_check=True,lang='Persian'):
     if datetime:
-        if isinstance(datetime, date) and not isinstance(datetime, dt):
+        check_date = isinstance(datetime, date) and not isinstance(datetime, dt)
+        if check_date:
             datetime = dt.combine(datetime,dt.min.time())
         if lang == 'Persian':
             jalali = jdatetime.fromgregorian(datetime=datetime)
@@ -46,9 +47,9 @@ def to_text_format(datetime:dt,time_check=True,year_check=True,lang='Persian'):
             if int(min) < 10 : min = '0' + min
             if int(hour) < 10 : hour = '0' + hour
             
-            if isinstance(datetime, date) and not isinstance(datetime, dt) and year_check:
+            if check_date and year_check:
                 result = day + ' ' + month + ' ' + year
-            elif isinstance(datetime, date) and not isinstance(datetime, dt):
+            elif check_date:
                 result = day + ' ' + month
             elif time_check and year_check:
                 result = day + ' ' + month + ' ' + year + ' - ' + 'ساعت ' + hour + ':' + min
@@ -67,9 +68,9 @@ def to_text_format(datetime:dt,time_check=True,year_check=True,lang='Persian'):
             if int(min) < 10 : min = '0' + min
             if int(hour) < 10 : hour = '0' + hour
             
-            if isinstance(datetime, date) and not isinstance(datetime, dt) and year_check:
+            if check_date and year_check:
                 result = month + ' ' + day + ', ' + year
-            elif isinstance(datetime, date) and not isinstance(datetime, dt):
+            elif check_date:
                 result = month + ' ' + day
             elif time_check and year_check:
                 result = month + ' ' + day + ', ' + year + ' at ' + hour + ':' + min
